@@ -35,7 +35,7 @@
       const termo = document.getElementById("termo").value.trim();
       if (!termo) return;
 
-      const response = await fetch(`https://buscadorback.onrender.com/buscar?termo=${encodeURIComponent(termo)}`);
+      const response = await fetch(`https://buscador-7f1v.onrender.com/buscar?termo=${encodeURIComponent(termo)}`);
 
       const produtos = await response.json();
 

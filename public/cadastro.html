@@ -60,7 +60,7 @@
 
       // Função para cadastrar site
   async function cadastrarSite(url) {
-    const response = await fetch("https://buscadorback.onrender.com/cadastrar-site", {
+    const response = await fetch("https://buscador-7f1v.onrender.com/cadastrar-site", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url })
@@ -75,7 +75,7 @@
 
   // Função para carregar sites cadastrados
   async function carregarSites() {
-    const response = await fetch("https://buscadorback.onrender.com/sites");
+    const response = await fetch("https://buscador-7f1v.onrender.com/sites");
     return await response.json();
 }
 
