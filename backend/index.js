@@ -6,7 +6,7 @@ const buscarProdutosPuppeteer = require('./buscarProdutosPuppeteer');
 
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 const SITES_FILE = 'sites.json';
 
 app.use(cors());
@@ -60,4 +60,4 @@ app.get('/buscar', async (req, res) => {
 });
 
 
-//app.listen(PORT, () => console.log(`API funcionando em http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`API funcionando em http://localhost:${PORT}`));
