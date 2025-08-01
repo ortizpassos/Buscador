@@ -1,51 +1,90 @@
-<!-- cadastro.html -->
+<!-- admin.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Cadastro de Sites</title>
+  <title>Painel do Administrador</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-
-  <div class="container py-5">
-    <h2 class="mb-4 text-center">Cadastrar Site para Busca</h2>
-
-    <form id="formSite" class="card p-4 shadow-sm mx-auto" style="max-width: 500px;">
+  <div class="container mt-5">
+    <h2 class="mb-4">Cadastrar Sites de Sexshop</h2>
+    <form id="formSite">
       <div class="mb-3">
-        <label for="url" class="form-label">URL do site de busca</label>
-        <input type="text" class="form-control" id="url" placeholder="https://www.site.com/busca?q={termo}" required>
-        <div class="form-text">Use <code>{termo}</code> onde o termo de busca será inserido.</div>
+        <label for="urlSite" class="form-label">URL do Site</label>
+        <input type="url" class="form-control" id="urlSite" placeholder="https://exemplo.com" required>
       </div>
-
-      <button type="submit" class="btn btn-success w-100">Cadastrar</button>
+      <button type="submit" class="btn btn-success">Cadastrar Site</button>
     </form>
 
-    <div id="mensagem" class="alert alert-success mt-3 d-none text-center">Site cadastrado com sucesso!</div>
+    <hr class="my-4">
+    <h4>Sites cadastrados</h4>
+    <ul id="listaSites" class="list-group mt-2"></ul>
   </div>
 
   <script>
-    document.getElementById("formSite").addEventListener("submit", async function (e) {
-      e.preventDefault();
+    const form = document.getElementById('formSite');
+    const listaSites = document.getElementById('listaSites');
 
-      const site = {
-        url: document.getElementById("url").value.trim()
-      };
+    const sites = JSON.parse(localStorage.getItem("sexshopSites") || "[]");
 
-      const response = await fetch("http://localhost:5000/cadastrar-site", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(site)
+    function atualizarLista() {
+      listaSites.innerHTML = "";
+      sites.forEach((site, i) => {
+        const li = document.createElement("li");
+        li.className = "list-group-item d-flex justify-content-between align-items-center";
+        li.innerHTML = `
+          ${site}
+          <button class="btn btn-sm btn-danger" onclick="remover(${i})">Remover</button>
+        `;
+        listaSites.appendChild(li);
       });
+    }
 
-      if (response.ok) {
-        document.getElementById("mensagem").classList.remove("d-none");
-        document.getElementById("formSite").reset();
-      } else {
-        alert("Erro ao cadastrar o site.");
+    function remover(index) {
+      sites.splice(index, 1);
+      localStorage.setItem("sexshopSites", JSON.stringify(sites));
+      atualizarLista();
+    }
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const url = document.getElementById('urlSite').value.trim();
+      if (url && !sites.includes(url)) {
+        sites.push(url);
+        localStorage.setItem("sexshopSites", JSON.stringify(sites));
+        atualizarLista();
+        form.reset();
       }
     });
-  </script>
 
+      // Função para cadastrar site
+  async function cadastrarSite(url) {
+    const response = await fetch("http://localhost:5000/cadastrar-site", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url })
+    });
+
+    if (!response.ok) {
+      const erro = await response.json();
+      throw new Error(erro.error || "Erro ao cadastrar");
+    }
+    return await response.json();
+  }
+
+  // Função para carregar sites cadastrados
+  async function carregarSites() {
+    const response = await fetch("http://localhost:5000/sites");
+    return await response.json();
+}
+
+
+
+
+    atualizarLista();
+
+
+  </script>
 </body>
 </html>

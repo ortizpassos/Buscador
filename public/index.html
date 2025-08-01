@@ -36,6 +36,7 @@
       if (!termo) return;
 
       const response = await fetch(`http://localhost:5000/buscar?termo=${encodeURIComponent(termo)}`);
+
       const produtos = await response.json();
 
       const container = document.getElementById("resultados");
