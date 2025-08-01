@@ -60,4 +60,4 @@ app.get('/buscar', async (req, res) => {
 });
 
 
-app.listen(PORT, () => console.log(`API funcionando em http://localhost:${PORT}`));
+//app.listen(PORT, () => console.log(`API funcionando em http://localhost:${PORT}`));
