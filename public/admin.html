@@ -24,7 +24,7 @@
 
   <script>
     async function carregarSites() {
-      const resp = await fetch('http://localhost:3000/api/sites');
+      const resp = await fetch('https://buscadorback.onrender.com/api/sites');
       const sites = await resp.json();
 
       const lista = document.getElementById('listaSites');
@@ -40,7 +40,7 @@
     document.getElementById('formSite').addEventListener('submit', async function (e) {
       e.preventDefault();
       const site = document.getElementById('siteInput').value;
-      const res = await fetch('http://localhost:3000/api/sites', {
+      const res = await fetch('https://buscadorback.onrender.com/api/sites', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: site })
