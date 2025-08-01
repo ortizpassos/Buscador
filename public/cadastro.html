@@ -9,56 +9,27 @@
 <body class="bg-light">
 
   <div class="container py-5">
-    <h2 class="mb-4 text-center">Cadastro de Sites para Busca</h2>
+    <h2 class="mb-4 text-center">Cadastrar Site para Busca</h2>
 
-    <form id="formSite" class="card p-4 shadow-sm">
+    <form id="formSite" class="card p-4 shadow-sm mx-auto" style="max-width: 500px;">
       <div class="mb-3">
-        <label for="nome" class="form-label">Nome do Site</label>
-        <input type="text" class="form-control" id="nome" required>
-      </div>
-      <div class="mb-3">
-        <label for="url" class="form-label">URL Base (use {termo} como marcador)</label>
+        <label for="url" class="form-label">URL do site de busca</label>
         <input type="text" class="form-control" id="url" placeholder="https://www.site.com/busca?q={termo}" required>
-      </div>
-      <div class="mb-3">
-        <label for="seletorProduto" class="form-label">Seletor do Produto</label>
-        <input type="text" class="form-control" id="seletorProduto" placeholder=".produto" required>
-      </div>
-      <div class="mb-3">
-        <label for="seletorNome" class="form-label">Seletor do Nome</label>
-        <input type="text" class="form-control" id="seletorNome" placeholder=".nome" required>
-      </div>
-      <div class="mb-3">
-        <label for="seletorPreco" class="form-label">Seletor do Preço</label>
-        <input type="text" class="form-control" id="seletorPreco" placeholder=".preco" required>
-      </div>
-      <div class="mb-3">
-        <label for="seletorImagem" class="form-label">Seletor da Imagem</label>
-        <input type="text" class="form-control" id="seletorImagem" placeholder="img" required>
-      </div>
-      <div class="mb-3">
-        <label for="seletorLink" class="form-label">Seletor do Link</label>
-        <input type="text" class="form-control" id="seletorLink" placeholder="a" required>
+        <div class="form-text">Use <code>{termo}</code> onde o termo de busca será inserido.</div>
       </div>
 
-      <button type="submit" class="btn btn-success w-100">Cadastrar Site</button>
+      <button type="submit" class="btn btn-success w-100">Cadastrar</button>
     </form>
 
     <div id="mensagem" class="alert alert-success mt-3 d-none text-center">Site cadastrado com sucesso!</div>
   </div>
 
   <script>
-    document.getElementById("formSite").addEventListener("submit", async function(e) {
+    document.getElementById("formSite").addEventListener("submit", async function (e) {
       e.preventDefault();
 
       const site = {
-        nome: document.getElementById("nome").value,
-        url: document.getElementById("url").value,
-        seletorProduto: document.getElementById("seletorProduto").value,
-        seletorNome: document.getElementById("seletorNome").value,
-        seletorPreco: document.getElementById("seletorPreco").value,
-        seletorImagem: document.getElementById("seletorImagem").value,
-        seletorLink: document.getElementById("seletorLink").value,
+        url: document.getElementById("url").value.trim()
       };
 
       const response = await fetch("http://localhost:5000/cadastrar-site", {
